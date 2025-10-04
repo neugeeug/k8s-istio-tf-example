@@ -6,7 +6,10 @@ This repo contains a minimal Terraform + Helm solution to provision a dedicated 
 
 - terraform/: Terraform code to create the RDS instance and store credentials in Secrets Manager. Fill the `envs/*.tfvars` with your environment values.
 - helm/app-chart/: Helm chart for the application. It creates a Deployment, Service, ServiceEntry (to allow egress to the DB endpoint under Istio REGISTRY_ONLY), and a DB credentials Secret.
-- deploy.sh: CI-friendly script that runs Terraform then Helm. Usage: `./deploy.sh <env>`.
+  - the helm contains default values.yaml and specific overrides for `dev` and `prod` environments.
+  - the specific value files might be located closer to the application repo or in a separate repo depending on your setup.
+- deploy.sh: CI-friendly script that runs Terraform then Helm. Usage: `./deploy.sh <env>`
+
 
 ### Notes & assumptions
 
