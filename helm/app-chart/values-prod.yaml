@@ -1,0 +1,15 @@
+# Environment-specific overrides for `prod`
+replicaCount: 4
+image:
+  tag: "stable"
+
+resources:
+  limits:
+    cpu: "500m"
+    memory: "512Mi"
+  requests:
+    cpu: "250m"
+    memory: "256Mi"
+
+# db overrides are still injected by CI using terraform outputs
+

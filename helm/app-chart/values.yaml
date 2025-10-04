@@ -1,0 +1,20 @@
+replicaCount: 2
+image:
+  repository: yourrepo/feature-app
+  tag: latest
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+
+env: "dev"
+
+resources: {}
+
+db:
+  host: ""
+  port: 5432
+  user: "appuser"
+  password: ""
+  name: "appdb"

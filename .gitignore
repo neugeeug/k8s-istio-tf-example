@@ -1,0 +1,28 @@
+# Ignore IntelliJ IDEA project files
+# See: https://www.jetbrains.com/help/idea/sharing-projects.html
+
+# IntelliJ project settings
+.idea/
+
+# Module files
+*.iml
+*.iws
+*.ipr
+
+# User-specific files
+# (workspace.xml contains user-specific workspace settings; don't share)
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/shelf/
+.idea/**/dictionaries/
+.idea/**/usage.statistics.xml
+
+# Local history and caches
+.idea/**/localHistory/
+
+# Recommended: ignore build output directories
+/out/
+
+# macOS Finder file
+.DS_Store
+

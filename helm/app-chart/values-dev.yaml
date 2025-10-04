@@ -1,0 +1,15 @@
+# Environment-specific overrides for `dev`
+replicaCount: 1
+image:
+  tag: "dev-latest"
+
+# dev can use lower resources and smaller DB connection timeouts if needed
+resources: {}
+
+# You can also override db.* defaults here, but CI will inject DB host/user/password at deploy time
+# db:
+#   host: "db-dev.example.internal"
+#   user: "appuser"
+#   password: ""
+#   name: "appdb"
+
