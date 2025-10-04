@@ -4,7 +4,7 @@ locals {
 
 resource "random_password" "db_password" {
   length           = 16
-  override_characters = "@#%&*()-_=+[]{}<>?"
+  override_special = "@#%&*()-_=+[]{}<>?"
   special          = true
 }
 
@@ -24,12 +24,12 @@ resource "aws_security_group" "db_sg" {
   dynamic "ingress" {
     for_each = length(var.allowed_security_group_ids) > 0 ? var.allowed_security_group_ids : var.allowed_cidr_blocks
     content {
-      from_port   = 5432
-      to_port     = 5432
-      protocol    = "tcp"
-      cidr_blocks = length(var.allowed_security_group_ids) > 0 ? [] : [ingress.value]
+      from_port       = 5432
+      to_port         = 5432
+      protocol        = "tcp"
+      cidr_blocks     = length(var.allowed_security_group_ids) > 0 ? [] : [ingress.value]
       security_groups = length(var.allowed_security_group_ids) > 0 ? [ingress.value] : []
-      description = "Allow app access to DB"
+      description     = "Allow app access to DB"
     }
   }
 
@@ -47,7 +47,7 @@ resource "aws_db_instance" "this" {
   engine_version         = var.db_engine_version
   instance_class         = var.db_instance_class
   allocated_storage      = var.db_allocated_storage
-  name                   = var.db_name
+  db_name                = var.db_name
   username               = var.db_username
   password               = random_password.db_password.result
   db_subnet_group_name   = aws_db_subnet_group.db_subnet_group.name
@@ -66,7 +66,7 @@ resource "aws_secretsmanager_secret" "db_secret" {
 }
 
 resource "aws_secretsmanager_secret_version" "db_secret_version" {
-  secret_id     = aws_secretsmanager_secret.db_secret.id
+  secret_id = aws_secretsmanager_secret.db_secret.id
   secret_string = jsonencode({
     username = var.db_username
     password = random_password.db_password.result

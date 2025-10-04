@@ -28,13 +28,19 @@ DB_USER=$(echo "$DB_PASSWORD_JSON" | jq -r '.username')
 
 # deploy helm chart
 HELM_CHART_DIR="$ROOT_DIR/helm/app-chart"
+HELM_BASE_VALUES_FILE="$HELM_CHART_DIR/values.yaml"
 HELM_ENV_VALUES_FILE="$HELM_CHART_DIR/values-${ENV}.yaml"
+# build a simple space-separated string of -f args (simpler syntax)
 HELM_VALUES_ARGS=""
+if [ -f "$HELM_BASE_VALUES_FILE" ]; then
+  HELM_VALUES_ARGS="$HELM_VALUES_ARGS -f $HELM_BASE_VALUES_FILE"
+fi
 if [ -f "$HELM_ENV_VALUES_FILE" ]; then
-  HELM_VALUES_ARGS="-f $HELM_ENV_VALUES_FILE"
+  HELM_VALUES_ARGS="$HELM_VALUES_ARGS -f $HELM_ENV_VALUES_FILE"
 fi
 
-# source of truth for image tags (GitOps-style). We still inject DB connection info only for the sake of the example.
+# Value files from Helm are "source of truth" for image tags (GitOps-style).
+# We still inject DB connection info only for the sake of the example.
 # In a real-world scenario, consider using Kubernetes Secrets for sensitive info like DB passwords.
 # The best use ConfigMaps and Secrets for such configurations synchronized with central Vault or AWS Secrets Manager.
 
@@ -47,4 +53,3 @@ helm upgrade --install feature-app "$HELM_CHART_DIR" \
   --set-string db.password="$DB_PASSWORD"
 
 echo "Deployment complete. App deployed to namespace '$ENV' and connected to DB at $DB_HOST:$DB_PORT"
-chmod +x "$ROOT_DIR/deploy.sh"
