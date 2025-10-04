@@ -1,0 +1,26 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: pet-store
+  namespace: app-api
+spec:
+  template:
+    metadata:
+      labels:
+        app-protected: "istio"
+    spec:
+      imagePullSecrets:
+        - name: artifactory-app
+      containers:
+        - image: >-
+            app-docker-prod-local.jfrog.teliacompany.io/examples/pet_store:#APP_VERSION#
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JWT_AUDIENCE
+              value: secret
+            - name: OPA_REGO
+              value: i2i_global_app_pet_store_v1
+            - name: APP_ROOT_PATH
+              value: /I2I-Global-app-Pet-Store-v1 #Apigee context due to access to openapi.json
+            # next values here

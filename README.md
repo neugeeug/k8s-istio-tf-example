@@ -16,8 +16,8 @@ This repo contains a minimal Terraform + Helm solution to provision a dedicated 
 
 ### Next steps / optional improvements
 
-- Use a remote state backend for Terraform (S3 + DynamoDB) for team collaboration.
-- Add additional validations and tests in CI (terraform validate, helm lint).
 - Separate Terraform and Helm deployments in CI for better control.
 - Use centralized secret management (e.g., AWS Secrets Manager, HashiCorp Vault) for DB credentials.
-
+- Use a remote state backend for Terraform (S3 + DynamoDB) for team collaboration.
+- Add additional validations and tests in CI (terraform validate, helm lint).
+- Consider incorporating Knative for simplified deployment and scaling of the application.
